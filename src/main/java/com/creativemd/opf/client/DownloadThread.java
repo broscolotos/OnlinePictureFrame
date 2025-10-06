@@ -1,6 +1,7 @@
 package com.creativemd.opf.client;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,6 +13,8 @@ import javax.imageio.ImageIO;
 import javax.vecmath.Tuple2f;
 import javax.vecmath.Vector2f;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -35,51 +38,46 @@ public class DownloadThread extends Thread {
 	private BufferedImage loadedImage = null; 
 	
 	public DownloadThread(String url) {
+		System.out.println("Image URL: " + url);
 		this.url = url;
 		start();
 	}
 	
-	public boolean hasFinished()
-	{
+	public boolean hasFinished() {
 		return progress == 1F;
 	}
 	
-	public boolean hasFailed()
-	{
+	public boolean hasFailed() {
 		return hasFinished() && loadedImage == null;
 	}
 	
-	public BufferedImage getDownloadedImage()
-	{
+	public BufferedImage getDownloadedImage() {
 		return loadedImage;
 	}
 	
-	public float getProgress()
-	{
+	public float getProgress() {
 		return progress;
 	}
 	
 	@Override
-	public void run()
-	{
+	public void run() {
 		try {
-			loadedImage = ImageIO.read(new URL(url));
+			System.out.println("Trying to load image " + url);
+			loadedImage = ImageIO.read(new File(url));
 		} catch (Exception e) {
+			System.out.println("Image failed to load");
 			loadedImage = null;
 			e.printStackTrace();
 		}
 		
-		
-		
 		progress = 1F;
 	}
 	
-	public static int loadImage(DownloadThread thread)
-	{
-		if(!thread.hasFailed())
-		{
+	public static int loadImage(DownloadThread thread) {
+		if(!thread.hasFailed()) {
 			BufferedImage image = thread.getDownloadedImage();
 			int id = loadTexture(image);
+
 			loadedImages.put(thread.url, id);
 			loadedImagesSize.put(thread.url, new Vector2f(image.getWidth(), image.getHeight()));
 			return id;
@@ -88,7 +86,7 @@ public class DownloadThread extends Thread {
 	}
 	
 	private static final int BYTES_PER_PIXEL = 4;
-	   public static int loadTexture(BufferedImage image){
+	   public static int loadTexture(BufferedImage image) {
 	      
 	      int[] pixels = new int[image.getWidth() * image.getHeight()];
 	        image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());

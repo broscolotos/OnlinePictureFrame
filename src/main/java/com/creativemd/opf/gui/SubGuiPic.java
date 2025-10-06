@@ -21,7 +21,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.nbt.NBTTagCompound;
 
 @SideOnly(Side.CLIENT)
-public class SubGuiPic extends SubGui{
+public class SubGuiPic extends SubGui {
 	
 	public TileEntityPicFrame frame;
 	
@@ -58,40 +58,35 @@ public class SubGuiPic extends SubGui{
 	}
 	
 	@CustomEventSubscribe
-	public void onClicked(ControlClickEvent event)
-	{
-		if(event.source.is("reX") || event.source.is("reY"))
-		{
+	public void onClicked(ControlClickEvent event) {
+		if(event.source.is("reX") || event.source.is("reY")) {
 			GuiTextfield sizeXField = (GuiTextfield) getControl("sizeX");
 			GuiTextfield sizeYField = (GuiTextfield) getControl("sizeY");
 			
 			float x = 1;
-			try{
+			try {
 				x = Float.parseFloat(sizeXField.text);
-			}catch(Exception e){
+			} catch(Exception e) {
 				x = 1;
 			}
 			
 			float y = 1;
-			try{
+			try {
 				y = Float.parseFloat(sizeYField.text);
-			}catch(Exception e){
+			} catch(Exception e) {
 				y = 1;
 			}
 			
 			Vector2f size = DownloadThread.loadedImagesSize.get(frame.url);
-			if(size != null)
-			{
-				if(event.source.is("reX"))
-				{
+			if(size != null) {
+				if(event.source.is("reX")) {
 					sizeYField.text = "" + (size.y/(size.x/x));
-				}else{
+				} else {
 					sizeXField.text = "" + (size.x/(size.y/y));
 				}
 			}
 		}
-		if(event.source.is("Save"))
-		{
+		if (event.source.is("Save")) {
 			NBTTagCompound nbt = new NBTTagCompound();
 			GuiTextfield url = (GuiTextfield) getControl("url");
 			GuiTextfield sizeX = (GuiTextfield) getControl("sizeX");
@@ -121,14 +116,14 @@ public class SubGuiPic extends SubGui{
 			nbt.setString("url", url.text);
 			float x = 1;
 			float y = 1;
-			try{
+			try {
 				x = Float.parseFloat(sizeX.text);
-			}catch(Exception e){
+			} catch(Exception e) {
 				x = 1;
 			}
-			try{
+			try {
 				y = Float.parseFloat(sizeY.text);
-			}catch(Exception e){
+			} catch(Exception e) {
 				y = 1;
 			}
 			nbt.setFloat("x", x);

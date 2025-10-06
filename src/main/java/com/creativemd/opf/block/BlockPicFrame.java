@@ -34,15 +34,14 @@ public class BlockPicFrame extends BlockContainer implements IGuiCreator {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		CubeObject cube = new CubeObject(0, 0, 0, 0.05, 1, 1);
 		ForgeDirection direction = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 		/*TileEntity te = world.getTileEntity(x, y, z);
 		
-		if(te instanceof TileEntityPicFrame)
+		if (te instanceof TileEntityPicFrame)
 		{
-			if(direction == ForgeDirection.UP)
+			if (direction == ForgeDirection.UP)
 			{
 				cube.minZ -= ((TileEntityPicFrame) te).sizeX-1;
 				cube.minY -= ((TileEntityPicFrame) te).sizeY-1;
@@ -59,10 +58,9 @@ public class BlockPicFrame extends BlockContainer implements IGuiCreator {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileEntityPicFrame)
+		if (te instanceof TileEntityPicFrame)
 			return ((TileEntityPicFrame) te).getBoundingBox();
 		
 		ForgeDirection direction = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
@@ -72,55 +70,47 @@ public class BlockPicFrame extends BlockContainer implements IGuiCreator {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
+    public IIcon getIcon(int side, int meta) {
         return Blocks.planks.getIcon(side, meta);
     }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister registry)
-    {
+    public void registerBlockIcons(IIconRegister registry) {
         
     }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean renderAsNormalBlock()
-    {
+	public boolean renderAsNormalBlock() {
         return false;
     }
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float offX, float offY, float offZ)
-    {
-		if(!world.isRemote)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float offX, float offY, float offZ) {
+		if (!world.isRemote)
 			((EntityPlayerMP)player).openGui(CreativeCore.instance, 0, world, x, y, z);
         return true;
     }
 	
 	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side, float offX, float offY, float offZ, int meta)
-    {
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float offX, float offY, float offZ, int meta) {
         return side;
     }
 	
 	@Override
-	public boolean isOpaqueCube()
-    {
+	public boolean isOpaqueCube() {
         return false;
     }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getRenderType()
-    {
+	public int getRenderType() {
         return OPFrameClient.modelID;
     }
 	
 	@Override
-	public boolean isNormalCube()
-    {
+	public boolean isNormalCube() {
         return false;
     }
 
@@ -133,7 +123,7 @@ public class BlockPicFrame extends BlockContainer implements IGuiCreator {
 	@SideOnly(Side.CLIENT)
 	public SubGui getGui(EntityPlayer player, ItemStack stack, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileEntityPicFrame)
+		if (te instanceof TileEntityPicFrame)
 			return new SubGuiPic((TileEntityPicFrame) te);
 		return null;
 	}
@@ -141,7 +131,7 @@ public class BlockPicFrame extends BlockContainer implements IGuiCreator {
 	@Override
 	public SubContainer getContainer(EntityPlayer player, ItemStack stack, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileEntityPicFrame)
+		if (te instanceof TileEntityPicFrame)
 			return new SubContainerPic((TileEntityPicFrame) te, player);
 		return null;
 	}

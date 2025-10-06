@@ -31,9 +31,8 @@ public class PicBlockRenderer implements ISimpleBlockRenderingHandler{
 		
 		TileEntity te = world.getTileEntity(x, y, z);
 		
-		if(te instanceof TileEntityPicFrame)
-		{
-			if(((TileEntityPicFrame) te).visibleFrame)
+		if (te instanceof TileEntityPicFrame) {
+			if (((TileEntityPicFrame) te).visibleFrame)
 				BlockRenderHelper.renderCubes(world, cubes, x, y, z, block, renderer, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)));
 		}
 		

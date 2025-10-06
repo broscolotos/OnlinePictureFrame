@@ -13,8 +13,7 @@ public class OPFrameClient {
 	
 	public static int modelID;
 	
-	public static void initClient()
-	{
+	public static void initClient() {
 		modelID = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(modelID, new PicBlockRenderer());
 		

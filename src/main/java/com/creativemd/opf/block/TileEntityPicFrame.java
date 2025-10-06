@@ -18,11 +18,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.common.util.Constants.NBT;
 
-public class TileEntityPicFrame extends TileEntityCreative{
+public class TileEntityPicFrame extends TileEntityCreative {
 	
 	public TileEntityPicFrame() {
 		
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
 			initClient();
 	}
 	
@@ -36,31 +36,24 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	public boolean failed;
 	
 	@SideOnly(Side.CLIENT)
-	public void initClient()
-	{
+	public void initClient() {
 		textureID = -1;
 		failed = false;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public boolean shouldLoadTexture()
-	{
+	public boolean shouldLoadTexture() {
 		return !isTextureLoaded() && !failed;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void loadTexutre()
-	{
-		if(shouldLoadTexture())
-		{
-			if(downloader == null)
-			{
+	public void loadTexutre() {
+		if (shouldLoadTexture()) {
+			if (downloader == null) {
 				Integer id = DownloadThread.loadedImages.get(url);
 				
-				if(id == null)
-				{
-					if(!DownloadThread.loadingImages.contains(url))
-					{
+				if (id == null) {
+					if (!DownloadThread.loadingImages.contains(url)) {
 						DownloadThread.loadingImages.add(url);
 						downloader = new DownloadThread(url);
 					}
@@ -68,14 +61,11 @@ public class TileEntityPicFrame extends TileEntityCreative{
 				else
 					textureID = id;
 			}
-			if(downloader != null && downloader.hasFinished())
-			{
-				if(downloader.hasFailed())
+			if (downloader != null && downloader.hasFinished()) {
+				if (downloader.hasFailed())
 					failed = true;
 				else
-				{
 					textureID = DownloadThread.loadImage(downloader);
-				}
 				DownloadThread.loadingImages.remove(url);
 				downloader = null;
 			}
@@ -83,20 +73,17 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public boolean isTextureLoaded()
-	{
+	public boolean isTextureLoaded() {
 		return textureID != -1;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared()
-    {
+    public double getMaxRenderDistanceSquared() {
         return Math.pow(renderDistance, 2);
     }
 	
-	public AxisAlignedBB getBoundingBox()
-	{
+	public AxisAlignedBB getBoundingBox() {
 		/*AxisAlignedBB bb = INFINITE_EXTENT_AABB;
         return bb;*/
 		CubeObject cube = new CubeObject(0, 0, 0, 0.05, 1, 1);
@@ -106,52 +93,50 @@ public class TileEntityPicFrame extends TileEntityCreative{
 		double offsetX = 0;
 		double offsetY = 0;
 		
-		switch(rotation)
-		{
-		case 1:
-			sizeX = this.sizeY;
-			sizeY = -this.sizeX;
-			if(posY == 0)
-				offsetY += 1;
-			else if(posY == 2)
-				offsetY -= 1;
-			break;
-		case 2:
-			sizeX = -this.sizeX;
-			sizeY = -this.sizeY;
-			if(posX == 0)
-				offsetX += 1;
-			else if(posX == 2)
-				offsetX -= 1;
-			if(posY == 0)
-				offsetY += 1;
-			else if(posY == 2)
-				offsetY -= 1;
-			break;
-		case 3:
-			sizeX = -this.sizeY;
-			sizeY = this.sizeX;
-			if(posX == 0)
-				offsetX += 1;
-			else if(posX == 2)
-				offsetX -= 1;
-			break;
+		switch(rotation) {
+			case 1:
+				sizeX = this.sizeY;
+				sizeY = -this.sizeX;
+				if (posY == 0)
+					offsetY += 1;
+				else if (posY == 2)
+					offsetY -= 1;
+				break;
+			case 2:
+				sizeX = -this.sizeX;
+				sizeY = -this.sizeY;
+				if (posX == 0)
+					offsetX += 1;
+				else if (posX == 2)
+					offsetX -= 1;
+				if (posY == 0)
+					offsetY += 1;
+				else if (posY == 2)
+					offsetY -= 1;
+				break;
+			case 3:
+				sizeX = -this.sizeY;
+				sizeY = this.sizeX;
+				if (posX == 0)
+					offsetX += 1;
+				else if (posX == 2)
+					offsetX -= 1;
+				break;
 		}
 		
-		if(posX == 1)
+		if (posX == 1)
 			offsetX += (-sizeX+1)/2D;
-		else if(posX == 2)
+		else if (posX == 2)
 			offsetX += -sizeX+1;
 		
 		
-		if(posY == 1)
+		if (posY == 1)
 			offsetY += (-sizeY+1)/2D;
-		else if(posY == 2)
+		else if (posY == 2)
 			offsetY += -sizeY+1;
 		
 		ForgeDirection direction = ForgeDirection.getOrientation(getBlockMetadata());
-		if(direction == ForgeDirection.UP)
-		{
+		if (direction == ForgeDirection.UP) {
 			cube.minZ -= sizeX-1;
 			cube.minY -= sizeY-1;
 			
@@ -159,7 +144,7 @@ public class TileEntityPicFrame extends TileEntityCreative{
 			cube.maxZ -= offsetX;
 			cube.minY -= offsetY;
 			cube.maxY -= offsetY;
-		}else{
+		} else {
 			cube.maxZ += sizeX-1;
 			cube.maxY += sizeY-1;
 			
@@ -177,8 +162,7 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
+    public AxisAlignedBB getRenderBoundingBox() {
         return getBoundingBox();
     }
 	
@@ -203,8 +187,7 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
+	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setString("url", url);
 		nbt.setFloat("sizeX", sizeX);
@@ -219,8 +202,7 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
+	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		url = nbt.getString("url");
 		sizeX = nbt.getFloat("sizeX");
@@ -235,8 +217,7 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	}
 	
 	@Override
-	public void getDescriptionNBT(NBTTagCompound nbt)
-	{
+	public void getDescriptionNBT(NBTTagCompound nbt) {
 		super.getDescriptionNBT(nbt);
 		nbt.setString("url", url);
 		nbt.setFloat("sizeX", sizeX);
@@ -252,8 +233,7 @@ public class TileEntityPicFrame extends TileEntityCreative{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		super.onDataPacket(net, pkt);
 		url = pkt.func_148857_g().getString("url");
 		sizeX = pkt.func_148857_g().getFloat("sizeX");

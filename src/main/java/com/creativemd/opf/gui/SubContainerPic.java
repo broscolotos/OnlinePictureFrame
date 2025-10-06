@@ -22,8 +22,7 @@ public class SubContainerPic extends SubContainer {
 
 	@Override
 	public void onGuiPacket(int controlID, NBTTagCompound nbt, EntityPlayer player) {
-		if(controlID == 0)
-		{
+		if(controlID == 0) {
 			frame.url = nbt.getString("url");
 			//frame.initClient();
 			frame.sizeX = nbt.getFloat("x");

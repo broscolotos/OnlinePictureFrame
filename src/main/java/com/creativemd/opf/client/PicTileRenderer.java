@@ -20,14 +20,11 @@ public class PicTileRenderer extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z,
 			float partialTick) {
-		if(te instanceof TileEntityPicFrame)
-		{
+		if (te instanceof TileEntityPicFrame) {
 			TileEntityPicFrame frame = (TileEntityPicFrame) te;
-			if(!frame.url.equals(""))
-			{
+			if (!frame.url.equals("")) {
 				//frame.url = "http://i.imgur.com/cnJ0dHP.png";
-				if(frame.isTextureLoaded())
-				{
+				if (frame.isTextureLoaded()) {
 					float sizeX = frame.sizeX;
 					float sizeY = frame.sizeY;
 					//sizeX = 16;
@@ -55,21 +52,21 @@ public class PicTileRenderer extends TileEntitySpecialRenderer {
 		    		//GL11.glRotatef((float)System.nanoTime()/10000000F, 0, 0, 1);
 		    		ForgeDirection direction = ForgeDirection.getOrientation(frame.getBlockMetadata());
 		    		RenderHelper3D.applyDirection(direction);
-		    		if(direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
+		    		if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
 		    			GL11.glRotatef(90, 0, 1, 0);
 		    		
 		    		double posX = -0.5+sizeX/2D;
-		    		if(frame.posX == 1)
+		    		if (frame.posX == 1)
 		    			posX = 0;
-		    		else if(frame.posX == 2)
+		    		else if (frame.posX == 2)
 		    			posX = -posX;
 		    		double posY = -0.5+sizeY/2D;
-		    		if(frame.posY == 1)
+		    		if (frame.posY == 1)
 		    			posY = 0;
-		    		else if(frame.posY == 2)
+		    		else if (frame.posY == 2)
 		    			posY = -posY;
 		    		
-		    		if((frame.rotation == 1 || frame.rotation == 3) && (frame.posX == 2 ^ frame.posY == 2))
+		    		if ((frame.rotation == 1 || frame.rotation == 3) && (frame.posX == 2 ^ frame.posY == 2))
 		    			GL11.glRotated(180, 1, 0, 0);
 		    		
 		    		GL11.glRotated(frame.rotation * 90, 1, 0, 0);
@@ -110,7 +107,7 @@ public class PicTileRenderer extends TileEntitySpecialRenderer {
 		            //GL11.glEnable(GL11.GL_TEXTURE_2D);
 		            GL11.glDisable(GL11.GL_BLEND);
 		            GL11.glEnable(GL11.GL_LIGHTING);
-				}else{
+				} else {
 					frame.loadTexutre();
 				}
 			}
